@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 module.exports.config = {
-    name: "myrole",
+    name: "role",
     version: "2.0.0",
     role: 0,
     credits: "Aro",
