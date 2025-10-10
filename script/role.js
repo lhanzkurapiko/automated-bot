@@ -2,7 +2,7 @@ const fs = require("fs");
 
 module.exports.config = {
     name: "role",
-    version: "1.0.0",
+    version: "1.1.0",
     role: 0,
     credits: "Ari",
     description: "Shows your or another user's role (supports reply, mention, or UID)",
@@ -16,8 +16,8 @@ module.exports.run = async function({ api, event, args, Threads, Users }) {
 
     if (Object.keys(mentions).length > 0) {
         targetID = Object.keys(mentions)[0];
-    } else if (messageReply?.messageID) {
-        targetID = messageReply.senderID || messageReply.participantID || senderID;
+    } else if (messageReply?.senderID) {
+        targetID = messageReply.senderID;
     } else if (args[0] && !isNaN(args[0])) {
         targetID = args[0];
     }
@@ -35,7 +35,17 @@ module.exports.run = async function({ api, event, args, Threads, Users }) {
     let roleName = "Normal User 👤";
     let emoji = "👤";
 
-    const threadInfo = await Threads.getInfo(threadID);
+    let threadInfo = null;
+    try {
+        if (Threads && typeof Threads.getInfo === "function") {
+            threadInfo = await Threads.getInfo(threadID);
+        } else {
+            threadInfo = await api.getThreadInfo(threadID);
+        }
+    } catch (err) {
+        console.warn("⚠️ Warning: Unable to get thread info, fallback to defaults.");
+    }
+
     const isGroupAdmin = threadInfo?.adminIDs?.some(e => e.id == targetID);
     const isBotAdmin = config?.[0]?.admin?.includes(targetID);
     const isDev = config?.[0]?.masterKey?.admin?.includes(targetID) || dev?.includes(targetID);
@@ -65,7 +75,7 @@ module.exports.run = async function({ api, event, args, Threads, Users }) {
         targetID === senderID
             ? `👋 Hello ${name}!\nYour current role is: ${roleName}\n(Role ID: ${role})`
             : `👤 Name: ${name}\n🎭 Role: ${roleName}\n🆔 Role ID: ${role}\n📩 Requested by: ${await Users.getNameUser(senderID)}`;
-
+    
     return api.sendMessage(message, threadID, (err, info) => {
         if (!err) api.setMessageReaction(emoji, info.messageID, () => {}, true);
     }, messageID);
