@@ -2,20 +2,24 @@ const fs = require("fs");
 
 module.exports.config = {
     name: "role",
-    version: "2.0.0",
+    version: "1.0.0",
     role: 0,
-    credits: "Aro",
-    description: "Shows your current role (user, admin, group admin, developer)",
+    credits: "Ari",
+    description: "Shows your or another user's role (supports reply, mention, or UID)",
     prefix: false,
     category: "system"
 };
 
-module.exports.run = async function({ api, event, Threads, Users }) {
-    const { threadID, senderID, messageReply, messageID } = event;
+module.exports.run = async function({ api, event, args, Threads, Users }) {
+    const { threadID, senderID, messageReply, mentions, messageID } = event;
     let targetID = senderID;
 
-    if (messageReply && messageReply.senderID) {
-        targetID = messageReply.senderID;
+    if (Object.keys(mentions).length > 0) {
+        targetID = Object.keys(mentions)[0];
+    } else if (messageReply?.messageID) {
+        targetID = messageReply.senderID || messageReply.participantID || senderID;
+    } else if (args[0] && !isNaN(args[0])) {
+        targetID = args[0];
     }
 
     const configPath = process.cwd() + "/config.json";
@@ -50,16 +54,19 @@ module.exports.run = async function({ api, event, Threads, Users }) {
         emoji = "🧩";
     }
 
-    const name = await Users.getNameUser(targetID);
+    let name;
+    try {
+        name = await Users.getNameUser(targetID);
+    } catch {
+        name = `Unknown User (${targetID})`;
+    }
 
     const message =
         targetID === senderID
             ? `👋 Hello ${name}!\nYour current role is: ${roleName}\n(Role ID: ${role})`
-            : `👤 Name: ${name}\n🎭 Role: ${roleName}\n🆔 Role ID: ${role}`;
+            : `👤 Name: ${name}\n🎭 Role: ${roleName}\n🆔 Role ID: ${role}\n📩 Requested by: ${await Users.getNameUser(senderID)}`;
 
     return api.sendMessage(message, threadID, (err, info) => {
-        if (!err) {
-            api.setMessageReaction(emoji, info.messageID, () => {}, true);
-        }
+        if (!err) api.setMessageReaction(emoji, info.messageID, () => {}, true);
     }, messageID);
 };
