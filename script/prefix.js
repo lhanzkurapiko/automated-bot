@@ -23,8 +23,8 @@ module.exports.config = {
   version: "1.0.0",
   role: 0,
   description: "bot prefix",
-  prefix: true,
-  credits: "ari",
+  prefix: false,
+  credits: "jzov",
   cooldowns: 5,
   category: "info"
 };
