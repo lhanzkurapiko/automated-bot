@@ -11,11 +11,11 @@ module.exports.config = {
   name: "pending", 
   version: "2.1.0", 
   role: 0, 
-  hasPrefix: false, 
+  hasPrefix: true, 
   aliases: ["approve", "deny"], 
   description: "Manage pending groups (list, approve, deny)", 
   usage: "pending | approve | deny", 
-  credits: "ari (pogi)" 
+  credits: "jzov (pogi)" 
 };
 
 module.exports.run = async function({ api, event }) {
