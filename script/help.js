@@ -2,11 +2,11 @@ module.exports.config = {
         name: 'help',
         version: '1.0.1',
         role: 0,
-        hasPrefix: false,
+        hasPrefix: true,
         aliases: ['help'],
         description: "Beginner's guide",
         usage: "Help [page] or [command]",
-        credits: 'ARI',
+        credits: 'jzov',
 };
 
 module.exports.run = async function ({
