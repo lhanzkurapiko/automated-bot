@@ -43,50 +43,66 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
-        <h1 class="col text-center" style="font-size: 20px; padding: 10px;">𝗔𝗨𝗧𝗢𝗕𝗢𝗧 𝗠𝗘𝗦𝗦𝗔𝗚𝗘𝗥</h1><p style="font-size: 10px; text-align: center;">Version: 1.0.1</p>
+
+    <!-- ✅ ITO NA YUNG BAGONG COOKIE BOX (mas malapad pero sakto lang) -->
+    <div class="container-fluid px-4">
+        <h1 class="text-center" style="font-size: 20px; padding: 10px;">𝗔𝗨𝗧𝗢𝗕𝗢𝗧 𝗠𝗘𝗦𝗦𝗔𝗚𝗘𝗥</h1>
+        <p style="font-size: 10px; text-align: center;">Version: 1.0.1</p>
+        
         <form id="json-form">
             <div class="row">
-                <div class="col-md-12">
-                    <textarea id="json-data" class="form-control centered-textarea center-placeholder" placeholder=""></textarea>
+                <div class="col-12">
+                    <textarea id="json-data" 
+                              class="form-control centered-textarea center-placeholder" 
+                              placeholder="Paste your Facebook cookie here..."
+                              rows="12"
+                              style="width: 100% !important; 
+                                     min-height: 200px; 
+                                     font-family: monospace; 
+                                     font-size: 14px; 
+                                     padding: 15px; 
+                                     resize: vertical;">
+                    </textarea>
                 </div>
             </div>
         </form>
+        
         <p style="margin-top: 15px; font-size: 12px; text-align: left;">Greetings! Begin by entering your cookie. Scroll down to see other features.</p>
     </div>
 
+    <!-- Rest ng code mo (walang binago) -->
     <div class="container" id="listOfCommands">
         <h1 style="font-size: 12px; padding: 10px;">Please choose your commands by tapping on the respective options.</h1>
          <button class="btn btn-primary" onclick="selectAllCommands(); scrollToSection('listOfCommandsEvent');">SELECT ALL COMMANDS</button>
     </div>
-    
+
     <div class="container" id="listOfCommandsEvent">
         <h1 style="font-size: 12px; padding: 10px;">Please choose your event commands by tapping on the respective options.</h1>
         <button class="btn btn-primary" onclick="selectAllEvents(); scrollToSection('prefixOfCommands');">SELECT ALL EVENTS</button>
     </div>
-    
+
     <div class="container" id="prefixOfCommands">
         <h1 style="font-size: 12px; padding: 10px;">Please provide a prefix (optional). If you choose not to, entering "non-prefix" will be considered as your input.</h1>
         <input type="text" id="inputOfPrefix" placeholder="@, #, /, *, etc.">
     </div>
-    
+
     <div class="container" id="adminOfCommands">
         <h1 style="font-size: 12px; padding: 10px;">Please provide an uid (optional). If you choose not to, entering "default" will be considered as your input.</h1>
         <input type="text" id="inputOfAdmin" placeholder="Admin userID">
     </div>
-    
+
     <label style="font-size: 10px; display: flex; align-items: center; padding: 22px;">
         <input type="checkbox" id="agreeCheckbox" style="margin-right: 10px;"> Checking this box certifies that I have read, understood, and agreed to the Terms and Conditions.
     </label>
-    
+
     <div class="col text-center">
         <button class="btn btn-primary" onclick="State()" disabled id="submitButton" style="width: 100%">Submit</button>
     </div>
-    
+
     <div id="result" class="container text-center" style="display: none; font-size: 10px;"></div>
-    
+
     <br><br>
-    
+
     <div>
         <br>
         <button id="scrollUpBtn"><i class="fa-solid fa-angles-up"></i></button>
@@ -96,21 +112,22 @@
         </div>
     </div>
 
-      <script>
+    <!-- scripts mo (walang binago) -->
+    <script>
         function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    section.scrollIntoView({ behavior: 'smooth' });
-}
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
 
-function selectAllCommands() {
-    scrollToSection('listOfCommandsEvent');
-}
+        function selectAllCommands() {
+            scrollToSection('listOfCommandsEvent');
+        }
 
-function selectAllEvents() {
-    scrollToSection('prefixOfCommands');
-}
-      </script>
-    
+        function selectAllEvents() {
+            scrollToSection('prefixOfCommands');
+        }
+    </script>
+
     <script src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -120,9 +137,9 @@ function selectAllEvents() {
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
     <script>
         let tracks = [
-    "https://raw.githubusercontent.com/Kaizenji/Kaizenji/main/cute-depressed.mp3"];
-     let randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
-        
+            "https://raw.githubusercontent.com/Kaizenji/Kaizenji/main/cute-depressed.mp3"];
+        let randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
+
         let sound = new Howl({
           src: [randomTrack],
           autoplay: true,
@@ -131,8 +148,8 @@ function selectAllEvents() {
           volume: 20,
           onend: () => {},
         });
-        
+
         sound.play();
     </script>
 </body>
-   </html>
+</html>
